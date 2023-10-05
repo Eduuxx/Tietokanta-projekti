@@ -12,3 +12,14 @@ body {
 .form-wrap .form-label {
   font-weight: 600;
 }
+.navbar {
+  background-color: #007BFF; /* Blue background color */
+}
+.navbar-brand {
+  font-family: 'Your Font', sans-serif; /* Replace 'Your Font' with your desired font */
+  color: #fff; /* Text color */
+}
+.navbar-nav .nav-link {
+  font-family: 'Your Font', sans-serif; /* Replace 'Your  Font' with your desired font */
+  color: #fff; /* Text color */
+}
