@@ -27,7 +27,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== TRUE) {
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <!-- Logo -->
-      <a class="navbar-brand" href="#"><img src="logo.png" alt="Logo" width="40"> Your Logo</a>
+      <a class="navbar-brand"><img src="../images/turku.png" alt="Logo" width="40"></a>
       
       <!-- Navbar toggler button for mobile -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
