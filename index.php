@@ -23,6 +23,37 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== TRUE) {
 </head>
 
 <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand"><img src="../images/turku.png" alt="Logo" width="40"></a>
+      
+      <!-- Navbar toggler button for mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <!-- Navbar links -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./tapahtumat.php">Tapahtumat</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Osallistujat</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Käyttäjät</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Asetukset</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <div class="alert alert-success my-5">
       Olet kirjautunut sisään!
