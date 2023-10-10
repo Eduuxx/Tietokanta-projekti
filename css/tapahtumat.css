@@ -1,0 +1,98 @@
+.event-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.event-title {
+    font-size: 24px;
+}
+
+.event-description {
+    margin-top: 10px;
+}
+
+.event-buttons {
+    margin-top: 10px;
+}
+
+.edit-button::before {
+    content: "\1F589"; /* Pen emoji */
+    margin-right: 5px;
+}
+
+.delete-button::before {
+    content: "\1F5D1"; /* Trashcan emoji */
+    margin-right: 5px;
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+.popup h2 {
+    margin-bottom: 20px;
+}
+
+.popup button {
+    margin: 10px;
+}
+/* Increase the size of input fields and textareas */
+input[type="text"], textarea {
+    width: 100%; /* Make them expand to the full width */
+    padding: 10px; /* Add padding for better spacing */
+    font-size: 16px; /* Adjust the font size */
+}
+
+#addEventPopup {
+    width: 80%; /* Adjust the width as needed */
+    max-width: 800px; /* Set a maximum width */
+    padding: 20px;
+}
+/* Adjust the size of edit event form input fields and textareas */
+#addEventPopup input[type="text"],
+#addEventPopup textarea,
+#addEventPopup input[type="datetime-local"],
+#addEventPopup input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+/* Increase the size of additional fields */
+#additionalFields input[type="text"],
+#additionalFields input[type="datetime-local"],
+#additionalFields input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+/* Adjust the size of the edit event form */
+#editEventPopup {
+    width: 80%; /* Adjust the width as needed */
+    max-width: 800px; /* Set a maximum width */
+    padding: 20px;
+}
+
+/* Adjust the size of edit event form input fields and textareas */
+#editEventPopup input[type="text"],
+#editEventPopup textarea,
+#editEventPopup input[type="datetime-local"],
+#editEventPopup input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}

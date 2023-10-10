@@ -120,142 +120,72 @@ $events = getEvents($conn);
     <title>Tapahtumat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/userpanel.css">
+    <link rel="stylesheet" href="./css/tapahtumat.css">
+    <script src="../js/userscript.js"></script>
+    <script src="../js/tapahtumat.js"></script>
     <link rel="shortcut icon" href="./img/favicon-16x16.png" type="image/x-icon">
-    
-    <style>
-        /* Add CSS styles for event boxes here */
-        .event-box {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 5px;
-        }
-
-        .event-title {
-            font-size: 24px;
-        }
-
-        .event-description {
-            margin-top: 10px;
-        }
-
-        .event-buttons {
-            margin-top: 10px;
-        }
-
-        .edit-button::before {
-            content: "\1F589"; /* Pen emoji */
-            margin-right: 5px;
-        }
-
-        .delete-button::before {
-            content: "\1F5D1"; /* Trashcan emoji */
-            margin-right: 5px;
-        }
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .popup-content {
-            text-align: center;
-        }
-
-        .popup h2 {
-            margin-bottom: 20px;
-        }
-
-        .popup button {
-            margin: 10px;
-        }
-        /* Increase the size of input fields and textareas */
-        input[type="text"], textarea {
-            width: 100%; /* Make them expand to the full width */
-            padding: 10px; /* Add padding for better spacing */
-            font-size: 16px; /* Adjust the font size */
-        }
-       
-        #addEventPopup {
-            width: 80%; /* Adjust the width as needed */
-            max-width: 800px; /* Set a maximum width */
-            padding: 20px;
-        }
-        /* Adjust the size of edit event form input fields and textareas */
-        #addEventPopup input[type="text"],
-        #addEventPopup textarea,
-        #addEventPopup input[type="datetime-local"],
-        #addEventPopup input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-        }
-        /* Increase the size of additional fields */
-        #additionalFields input[type="text"],
-        #additionalFields input[type="datetime-local"],
-        #additionalFields input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-        }
-        /* Adjust the size of the edit event form */
-        #editEventPopup {
-            width: 80%; /* Adjust the width as needed */
-            max-width: 800px; /* Set a maximum width */
-            padding: 20px;
-        }
-
-        /* Adjust the size of edit event form input fields and textareas */
-        #editEventPopup input[type="text"],
-        #editEventPopup textarea,
-        #editEventPopup input[type="datetime-local"],
-        #editEventPopup input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-    </style>
 </head>
 <body>
-    <!-- Navbar -->
+<!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <!-- Logo -->
-            <a class="navbar-brand"><img src="../images/turku.png" alt="Logo" width="40"> </a>
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand"><img src="../images/turku.png" alt="Logo" width="40"></a>
 
-            <!-- Navbar toggler button for mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <!-- Navbar toggler button for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <!-- Navbar links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./tapahtumat.php">Tapahtumat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./osallistujat.php">Osallistujat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./kayttajat.php">Käyttäjät</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./asetukset.php">Asetukset</a>
-                    </li>
-                </ul>
+                <!-- Navbar links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./tapahtumat.php">Tapahtumat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Osallistujat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Käyttäjät</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./asetukset.php">Asetukset</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Circle Logo/Button -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userPanelModal">
+                    <img src="../images/turku.png" alt="Logo" width="40">
+                </button>
+            </div>
+        </nav>
+
+        <!-- User Panel Modal -->
+        <div class="modal fade" id="userPanelModal" tabindex="-1" role="dialog" aria-labelledby="userPanelModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userPanelModalLabel">Käyttäjä Paneli</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center"> <!-- Center the content -->
+                        <!-- User profile -->
+                        <img src="../images/turku.png" class="img-fluid rounded" alt="User avatar" width="180">
+                        <h4 class="my-4">@<?= htmlspecialchars($_SESSION["username"]); ?></h4>
+                        <p><?= isset($_SESSION["email"]) ? htmlspecialchars($_SESSION["email"]) : ''; ?></p>
+                        <a href="./logout.php" class="btn btn-primary">KIRJAUDU ULOS</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
+
 
     <!-- Add Event Button -->
     <br>
@@ -453,102 +383,5 @@ $events = getEvents($conn);
             </div>
         </div>
     <?php } ?>
-
-    <script>
-        // Function to toggle the visibility of the add event form popup
-        function togglePopup() {
-            var popup = document.getElementById("addEventPopup");
-            if (popup.style.display === "none" || popup.style.display === "") {
-                popup.style.display = "block";
-            } else {
-                popup.style.display = "none";
-            }
-        }
-
-        // Function to toggle the visibility of the edit event form popup and populate form fields
-        function toggleEditPopup(event) {
-            document.getElementById("edit_event_id").value = event.id;
-            document.getElementById("edit_title").value = event.title;
-            document.getElementById("edit_description").value = event.description;
-            document.getElementById("edit_start_date").value = event.start_date.replace(" ", "T");
-            document.getElementById("edit_end_date").value = event.end_date.replace(" ", "T");
-            document.getElementById("edit_location").value = event.location;
-            document.getElementById("edit_participants").value = event.participants;
-
-            // Handle additional fields for editing
-            var editAdditionalFields = document.getElementById("edit_additionalFields");
-            editAdditionalFields.innerHTML = ''; // Clear existing fields
-
-            var additionalFields = JSON.parse(event.additional_fields);
-            for (var key in additionalFields) {
-                if (additionalFields.hasOwnProperty(key) && additionalFields[key] !== '') {
-                    var label = document.createElement("label");
-                    label.textContent = key.charAt(0).toUpperCase() + key.slice(1) + ":";
-
-                    var input = document.createElement("input");
-                    input.type = "text";
-                    input.name = "edit_" + key;
-                    input.value = additionalFields[key];
-
-                    editAdditionalFields.appendChild(label);
-                    editAdditionalFields.appendChild(input);
-                }
-            }
-
-            var popup = document.getElementById("editEventPopup");
-            if (popup.style.display === "none" || popup.style.display === "") {
-                popup.style.display = "block";
-            } else {
-                popup.style.display = "none";
-            }
-        }
-
-        // Function to cancel editing and hide the edit event form
-        function cancelEdit() {
-            var popup = document.getElementById("editEventPopup");
-            popup.style.display = "none";
-        }
-
-        function toggleAdditionalFields() {
-            var additionalFields = document.getElementById("additionalFields");
-            if (additionalFields.style.display === "none" || additionalFields.style.display === "") {
-                additionalFields.style.display = "block";
-
-                // Add labels for additional fields
-                additionalFields.innerHTML = `
-                    <label for="location_additional">Tapahtumapaikka</label>
-                    <input type="text" name="location_additional"><br>
-                    <label for="start_date_additional">Aloituspäivämäärä ja -aika</label>
-                    <input type="datetime-local" name="start_date_additional"><br>
-                    <label for="end_date_additional">Loppumispäivämäärä ja -aika</label>
-                    <input type="datetime-local" name="end_date_additional"><br>
-                    <label for="participants_additional">Maksimi osallistujamäärä</label>
-                    <input type="number" name="participants_additional"><br>
-                `;
-            } else {
-                additionalFields.style.display = "none";
-                additionalFields.innerHTML = ""; // Clear the additional fields
-            }
-        }
-
-        // Function to dynamically add more fields for start date, end date, location, and participants
-        function addMoreFields() {
-            var container = document.getElementById("additionalFields");
-            var newFields = document.createElement("div");
-
-            newFields.innerHTML = `
-                <label for="location_additional">Tapahtumapaikka</label>
-                <input type="text" name="location_additional"><br>
-                <label for="start_date_additional">Aloituspäivämäärä ja -aika</label>
-                <input type="datetime-local" name="start_date_additional"><br>
-                <label for="end_date_additional">Loppumispäivämäärä ja -aika</label>
-                <input type="datetime-local" name="end_date_additional"><br>
-                <label for="participants_additional">Maksimi osallistujamäärä</label>
-                <input type="number" name="participants_additional"><br>
-            `;
-
-            container.appendChild(newFields);
-        }
-    </script>
 </body>
 </html>
