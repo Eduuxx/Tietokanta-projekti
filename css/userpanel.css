@@ -1,0 +1,27 @@
+.circle-logo {
+    width: 40px;
+    height: 40px;
+    background-color: #007bff; /* Change to the desired background color */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-panel {
+    display: none;
+    position: absolute;
+    top: 60px; /* Adjust the distance from the top as needed */
+    right: 10px; /* Adjust the distance from the right as needed */
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the circle logo when active (user panel is visible) */
+.circle-logo.active {
+    background-color: #fff; /* Change to the desired background color */
+}

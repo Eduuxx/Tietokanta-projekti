@@ -54,13 +54,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           if (mysqli_stmt_fetch($stmt)) {
             # Check if password is correct
             if (password_verify($user_password, $hashed_password)) {
-
               # Store data in session variables
               $_SESSION["id"] = $id;
               $_SESSION["username"] = $username;
               $_SESSION["loggedin"] = TRUE;
-
-              # Redirect user to index page
+          
+              # Fetch user's email from the database
+              $sql_email = "SELECT email FROM users WHERE id = ?";
+              
+              if ($stmt_email = mysqli_prepare($link, $sql_email)) {
+                  mysqli_stmt_bind_param($stmt_email, "i", $id);
+                  if (mysqli_stmt_execute($stmt_email)) {
+                      mysqli_stmt_store_result($stmt_email);
+                      
+                      if (mysqli_stmt_num_rows($stmt_email) == 1) {
+                          mysqli_stmt_bind_result($stmt_email, $user_email);
+                          if (mysqli_stmt_fetch($stmt_email)) {
+                              $_SESSION["email"] = $user_email;
+                          }
+                      }
+                  }
+                  mysqli_stmt_close($stmt_email);
+              }
+        
               echo "<script>" . "window.location.href='./'" . "</script>";
               exit;
             } else {
