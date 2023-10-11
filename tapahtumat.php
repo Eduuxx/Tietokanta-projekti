@@ -149,7 +149,7 @@ $events = getEvents($conn);
                             <a class="nav-link" href="./osallistujat.php">Osallistujat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Käyttäjät</a>
+                            <a class="nav-link" href="./kayttajat.php">Käyttäjät</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./asetukset.php">Asetukset</a>

@@ -16,24 +16,19 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-// Query the users table to fetch "username" and "email"
-$sqlUsers = "SELECT username, email FROM users";
-$resultUsers = $conn->query($sqlUsers);
+
+// Get the currently logged-in user's username
+$currentUser = $_SESSION["username"];
+
+// Query the users table to fetch data for the currently logged-in user
+$sqlUsers = "SELECT username, email FROM users WHERE username = ?";
+$stmt = $conn->prepare($sqlUsers);
+$stmt->bind_param("s", $currentUser);
+$stmt->execute();
+$resultUsers = $stmt->get_result();
 
 if (!$resultUsers) {
-    die("Error executing the query for users: " . $conn->error);
-}
-
-// Query the settings table to fetch "title," "country," and "city"
-$sqlSettings = "SELECT name, type FROM settings WHERE type IN ('title', 'country', 'city')";
-$resultSettings = $conn->query($sqlSettings);
-
-if (!$resultSettings) {
-    die("Error executing the query for settings: " . $conn->error);
-}
-$settingsData = array(); // Store settings data in an array
-while ($row = $resultSettings->fetch_assoc()) {
-    $settingsData[$row['type']][] = $row['name'];
+    die("Error executing the query for the current user: " . $conn->error);
 }
 ?>
 
@@ -90,6 +85,7 @@ while ($row = $resultSettings->fetch_assoc()) {
     </div>
 </nav>
 
+
 <!-- User Panel Modal -->
 <div class="modal fade" id="userPanelModal" tabindex="-1" role="dialog" aria-labelledby="userPanelModalLabel"
     aria-hidden="true">
@@ -110,8 +106,7 @@ while ($row = $resultSettings->fetch_assoc()) {
     </div>
 </div>
 
-
-<!-- Add an Edit User Information Form -->
+<!-- Update User Information Form -->
 <div class="modal fade" id="editUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="editUserInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -120,7 +115,7 @@ while ($row = $resultSettings->fetch_assoc()) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="update_user_info.php"> <!-- Create a separate PHP file for updating user information -->
+                <form method="post" action="update_pass.php">
                     <div class="mb-3">
                         <label for="currentUsername" class="form-label">Käyttäjänimi</label>
                         <input type="text" class="form-control" id="currentUsername" name="currentUsername" value="<?= htmlspecialchars($_SESSION["username"]); ?>" readonly>
@@ -135,18 +130,16 @@ while ($row = $resultSettings->fetch_assoc()) {
                         <input type="email" class="form-control" id="currentEmail" name="currentEmail" value="<?= isset($_SESSION["email"]) ? htmlspecialchars($_SESSION["email"]) : ''; ?>" readonly>
                     </div>
                     <!-- End of Email section -->
+                    <!-- Password section -->
                     <div class="mb-3">
-                        <label for="title" class="form-label">Titteli</label>
-                        <input type="text" class="form-control" id="title" name="title">
+                        <label for="currentPassword" class="form-label">Nykyinen salasana*</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
                     </div>
                     <div class="mb-3">
-                        <label for="country" class="form-label">Osasto</label>
-                        <input type="text" class="form-control" id="country" name="country">
+                        <label for="newPassword" class="form-label">Uusi salasana</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword">
                     </div>
-                    <div class="mb-3">
-                        <label for="city" class="form-label">Työpaikka</label>
-                        <input type="text" class="form-control" id="city" name="city">
-                    </div>
+                    <!-- End of password section -->
                     <button type="submit" class="btn btn-primary">Tallenna</button>
                 </form>
             </div>
@@ -160,15 +153,6 @@ while ($row = $resultSettings->fetch_assoc()) {
             <tr>
                 <th>Käyttäjänimi</th>
                 <th>Sähköposti</th>
-                <?php if (isset($settingsData['title'])): ?>
-                    <th>Titteli</th>
-                <?php endif; ?>
-                <?php if (isset($settingsData['country'])): ?>
-                    <th>Osasto</th>
-                <?php endif; ?>
-                <?php if (isset($settingsData['city'])): ?>
-                    <th>Työpaikka</th>
-                <?php endif; ?>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -180,20 +164,29 @@ while ($row = $resultSettings->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
                     echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
-                    if (isset($settingsData['title'])) {
-                        echo "<td>" . implode(', ', $settingsData['title']) . "</td>";
-                    }
-                    if (isset($settingsData['country'])) {
-                        echo "<td>" . implode(', ', $settingsData['country']) . "</td>";
-                    }
-                    if (isset($settingsData['city'])) {
-                        echo "<td>" . implode(', ', $settingsData['city']) . "</td>";
-                    }
                     echo "<td><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#editUserInfoModal'>Edit</button></td>";
                     echo "</tr>";
                 }
             } else {
                 echo "<tr><td colspan='6'>No users found.</td></tr>";
+            }
+            // Check if a success message exists in the session
+            if (isset($_SESSION["update_success"])) {
+                echo '<div class="alert alert-success" role="alert">';
+                echo $_SESSION["update_success"];
+                echo '</div>';
+
+                // Clear the success message from the session to avoid displaying it again on refresh
+                unset($_SESSION["update_success"]);
+            }
+            // Check if an error message exists in the session
+            if (isset($_SESSION["update_error"])) {
+                echo '<div class="alert alert-danger" role="alert">';
+                echo $_SESSION["update_error"];
+                echo '</div>';
+
+                // Clear the error message from the session to avoid displaying it again on refresh
+                unset($_SESSION["update_error"]);
             }
             ?>
         </tbody>
