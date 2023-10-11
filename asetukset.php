@@ -61,23 +61,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["addTitle"])) {
         $title = $_POST["title"];
         if (addItem("title", $title, $conn)) {
-            echo "<p>Title added successfully.</p>";
+            echo "<p>Titteli added successfully.</p>";
         } else {
-            echo "<p>Error adding title.</p>";
+            echo "<p>Error adding titteli.</p>";
         }
     } elseif (isset($_POST["addCountry"])) {
         $country = $_POST["country"];
         if (addItem("country", $country, $conn)) {
-            echo "<p>Country added successfully.</p>";
+            echo "<p>Osasto added successfully.</p>";
         } else {
-            echo "<p>Error adding country.</p>";
+            echo "<p>Error adding osastoa.</p>";
         }
     } elseif (isset($_POST["addCity"])) {
         $city = $_POST["city"];
         if (addItem("city", $city, $conn)) {
-            echo "<p>City added successfully.</p>";
+            echo "<p>Työpaikka added successfully.</p>";
         } else {
-            echo "<p>Error adding city.</p>";
+            echo "<p>Error adding työpaikka.</p>";
         }
     } elseif (isset($_POST["deleteItem"])) {
         $itemId = $_POST["itemId"];
@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a class="nav-link" href="./tapahtumat.php">Tapahtumat</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Osallistujat</a>
+                    <a class="nav-link" href="./osallistujat.php">Osallistujat</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Käyttäjät</a>
@@ -176,10 +176,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Settings Boxes -->
     <div class="settings-box">
-        <h3>Titles</h3>
+        <h3>Tittelit</h3>
         <div class="item">
             <form method="post">
-                <input type="text" placeholder="Title" name="title">
+                <input type="text" placeholder="Titteli" name="title">
                 <button type="submit" name="addTitle">+</button>
             </form>
         </div>
@@ -207,10 +207,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="settings-box">
-        <h3>Countries</h3>
+        <h3>Osasto</h3>
         <div class="item">
             <form method="post">
-                <input type="text" placeholder="Country" name="country">
+                <input type="text" placeholder="Osasto" name="country">
                 <button type="submit" name="addCountry">+</button>
             </form>
         </div>
@@ -238,10 +238,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="settings-box">
-        <h3>Cities</h3>
+        <h3>Työpaikat</h3>
         <div class="item">
             <form method="post">
-                <input type="text" placeholder="City" name="city">
+                <input type="text" placeholder="Työpaikat" name="city">
                 <button type="submit" name="addCity">+</button>
             </form>
         </div>

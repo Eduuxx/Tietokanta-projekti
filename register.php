@@ -5,6 +5,26 @@ require_once "./config.php";
 # Define variables and initialize with empty values
 $username_err = $email_err = $password_err = "";
 $username = $email = $password = "";
+# Define an array to store participant data
+$participants = array();
+
+# Processing form data when form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // ... (Your existing code for registration)
+}
+
+# Fetch participant data from the database
+$sql = "SELECT first_name, last_name, email, title, country, city FROM participants";
+$result = mysqli_query($link, $sql);
+
+if ($result) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    $participants[] = $row;
+  }
+  mysqli_free_result($result);
+} else {
+  echo "<script>" . "alert('Oops! Something went wrong while fetching participants.')" . "</script>";
+}
 
 # Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
