@@ -36,11 +36,36 @@ function getEvents($conn)
     return $events;
 }
 
-// Function to add a new event to the database
-function addEvent($conn, $title, $description, $start_date, $end_date, $location, $participants, $additionalFields)
+// Function to retrieve users from the database
+function getUsers($conn)
 {
-    // Convert additional fields into JSON format and store in the 'additional_fields' column
+    $sql = "SELECT id, username FROM users";
+    $result = $conn->query($sql);
+    $users = [];
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $users[] = $row;
+        }
+    }
+
+    return $users;
+}
+
+// Function to add a new event to the database
+function addEvent($conn, $title, $description, $start_date, $end_date, $location, $participants, $selectedUsers, $additionalFields)
+{
+    // Convert additional fields into JSON format
     $additionalFieldsJSON = json_encode($additionalFields);
+
+    // Decode the existing JSON to an array
+    $existingData = json_decode($additionalFieldsJSON, true);
+
+    // Add selected users to the array
+    $existingData["selected_users"] = $selectedUsers;
+
+    // Encode the updated data back to JSON
+    $additionalFieldsJSON = json_encode($existingData);
 
     $sql = "INSERT INTO events (title, description, start_date, end_date, location, participants, additional_fields) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
@@ -48,7 +73,6 @@ function addEvent($conn, $title, $description, $start_date, $end_date, $location
     $stmt->execute();
     $stmt->close();
 }
-
 // Function to delete an event from the database
 function deleteEvent($conn, $event_id)
 {
@@ -79,6 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $end_date = $_POST["end_date"];
         $location = $_POST["location"];
         $participants = $_POST["participants"];
+        $selectedUsers = isset($_POST["selected_users"]) ? $_POST["selected_users"] : [];
 
         $start_date_additional = isset($_POST["start_date_additional"]) ? $_POST["start_date_additional"] : '';
         $end_date_additional = isset($_POST["end_date_additional"]) ? $_POST["end_date_additional"] : '';
@@ -92,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'participants' => $participants_additional
         ];
 
-        addEvent($conn, $title, $description, $start_date, $end_date, $location, $participants, $additionalFields);
+        addEvent($conn, $title, $description, $start_date, $end_date, $location, $participants, $selectedUsers, $additionalFields);
     } elseif (isset($_POST["delete_event"])) {
         $event_id = $_POST["event_id"];
         deleteEvent($conn, $event_id);
@@ -107,8 +132,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         updateEvent($conn, $event_id, $edit_title, $edit_description, $edit_start_date, $edit_end_date, $edit_location, $edit_participants);
     }
 }
-// Get the list of events
+
+// Get the list of events and users
 $events = getEvents($conn);
+$users = getUsers($conn);
 ?>
 
 <!DOCTYPE html>
@@ -253,6 +280,19 @@ $events = getEvents($conn);
                     </div>
                 </div>
             </div>
+                            <!-- Users Section -->
+                            <div class="popup-section">
+                    <div class="popup-section-title">Lisää Käyttäjiä</div>
+                    <div class="scrollable-users">
+                        <ul>
+                            <?php
+                            foreach ($users as $user) {
+                                echo '<li><input type="checkbox" name="selected_users[]" value="' . $user["id"] . '"> ' . $user["username"] . '</li>';
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </div>  
 
             <!-- Buttons Section -->
             <div class="popup-section-buttons">
@@ -325,7 +365,22 @@ $events = getEvents($conn);
             <br>
             <div><?= $event["start_date"] ?> - <?= $event["end_date"] ?> <?= $event["location"] ?></div>
             <div>Ilmoittautuneita: 0/<?= $event["participants"] ?></div>
+            <br>
+            <div>Kutsuttu: 
             <?php
+            $participants = $event["participants"];
+            $numSelectedUsers = 0; // Initialize the count of selected users
+
+            // Decode the additional fields and check if selected_users exist
+            if (!empty($event["additional_fields"])) {
+                $additionalFields = json_decode($event["additional_fields"], true);
+
+                if (isset($additionalFields["selected_users"]) && is_array($additionalFields["selected_users"])) {
+                    $numSelectedUsers = count($additionalFields["selected_users"]);
+                }
+            }
+
+            echo $numSelectedUsers;
             // Decode and display additional fields if they exist
             if (!empty($event["additional_fields"])) {
                 $additionalFields = json_decode($event["additional_fields"], true);
